@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import useInfiniteScroll from "./useInfiniteScroll";
 
 const List = () => {
-  function handleScroll() {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-      document.documentElement.offsetHeight
-    )
-      return;
-    setIsFetching(true);
-    console.log("Fetch more list items!");
-  }
+  const [listItems, setListItems] = useState(
+    Array.from(Array(30).keys(), n => n + 1)
+  );
+  const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
 
   function fetchMoreListItems() {
     setTimeout(() => {
@@ -20,19 +16,6 @@ const List = () => {
       setIsFetching(false);
     }, 2000);
   }
-
-  const [listItems, setListItems] = useState(
-    Array.from(Array(70).keys(), n => n + 1)
-  );
-  const [isFetching, setIsFetching] = useState(false);
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  useEffect(() => {
-    if (!isFetching) return;
-    fetchMoreListItems();
-  }, [isFetching]);
 
   return (
     <>
