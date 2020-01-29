@@ -1,2 +1,0 @@
-# InfiniteScrollComponent
-Created with CodeSandbox
